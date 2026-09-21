@@ -1,5 +1,6 @@
 package com.example.gamify.models.dtos.input;
 
+import com.example.gamify.utils.entities.atributes.AttributesLebels;
 import com.example.gamify.utils.entities.taskFrequencyOptions.TaskFrequencyEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,13 +29,17 @@ public record TasksInputDTO(
 
         @Schema(name = "reward", description = "Recompensa em moeda da tarefa")
         @NotNull(message = "A recompensa é obrigatória")
-        @Min(value = 0, message = "A recompensa não pode ser negativa")
+        @Min(value = 1, message = "A recompensa não pode ser negativa")
         Integer reward,
 
         @Schema(name = "experience", description = "Experiência ganho ao completar a tarefa")
         @NotNull(message = "A experiência é obrigatória")
-        @Min(value = 0, message = "A experiência não pode ser negativa")
+        @Min(value = 1, message = "A experiência não pode ser negativa")
         Integer experience,
+
+        @Schema(name = "attributes", description = "Atributo da tarefa, exemplo: charisma")
+        @NotNull(message = "O atributo é obrigatório")
+        AttributesLebels attributes,
         
         @Schema(name = "frequency", description = "Frequência de recorrência (UNICA, DIARIO, SEMANAL, MENSAL)")
         @NotNull(message = "A frequência é obrigatória")

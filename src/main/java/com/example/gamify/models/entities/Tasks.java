@@ -3,6 +3,7 @@ package com.example.gamify.models.entities;
 import com.example.gamify.models.dtos.absolute.TasksDTO;
 import com.example.gamify.models.dtos.input.TasksInputDTO;
 import com.example.gamify.models.dtos.output.TasksOutPutDTO;
+import com.example.gamify.utils.entities.atributes.AttributesLebels;
 import com.example.gamify.utils.entities.taskFrequencyOptions.TaskFrequencyDaysOfWeekEnum;
 import com.example.gamify.utils.entities.taskFrequencyOptions.TaskFrequencyEnum;
 import jakarta.persistence.*;
@@ -53,9 +54,14 @@ public class Tasks {
     @Getter
     @Setter
     @Column(nullable = false)
+    private AttributesLebels attribute;
+
+    @Getter
+    @Setter
+    @Column(nullable = false)
     private int experience;
 
-    // flag para indicar se pertence a uma missão
+    // Flag para indicar se pertence a uma missão
     @Getter
     @Setter
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
@@ -79,7 +85,7 @@ public class Tasks {
 
     @Getter
     @Setter
-    @Column(columnDefinition = "VARCHAR(255)")
+    @Enumerated(EnumType.STRING)
     private TaskFrequencyDaysOfWeekEnum daysOfWeek;
 
     @Getter
@@ -103,7 +109,9 @@ public class Tasks {
             int experience, TaskFrequencyEnum frequency,
             LocalTime scheduledTime, TaskFrequencyDaysOfWeekEnum daysOfWeek,
             LocalDateTime expirationDate, boolean partOfMission,
-            Profile profile, LocalDateTime lastCompletedAt, boolean completedInCurrentCycle) {
+            Profile profile, LocalDateTime lastCompletedAt, boolean completedInCurrentCycle,
+            AttributesLebels attribute
+            ) {
         this.title = title;
         this.description = description;
         this.reward = reward;
@@ -116,6 +124,7 @@ public class Tasks {
         this.profile = profile;
         this.completedInCurrentCycle = completedInCurrentCycle;
         this.lastCompletedAt = lastCompletedAt;
+        this.attribute = attribute;
     }
 
     public TasksDTO toDTO() {
@@ -170,8 +179,22 @@ public class Tasks {
                 taskInputDTO.partOfMission(),
                 profile,
                 null,
-                false
+                false,
+                taskInputDTO.attributes()
         );
+    }
+
+    public void updateFromInputDTO(TasksInputDTO taskInputDTO) {
+        this.setTitle(taskInputDTO.title());
+        this.setDescription(taskInputDTO.description());
+        this.setReward(taskInputDTO.reward());
+        this.setExperience(taskInputDTO.experience());
+        this.setFrequency(taskInputDTO.frequency());
+        this.setScheduledTime(taskInputDTO.scheduledTime());
+        this.setDaysOfWeek(mapDaysOfWeek(taskInputDTO.daysOfWeek()));
+        this.setExpirationDate(taskInputDTO.expirationDate());
+        this.setPartOfMission(taskInputDTO.partOfMission());
+        this.setAttribute(taskInputDTO.attributes());
     }
 
     private static TaskFrequencyDaysOfWeekEnum mapDaysOfWeek(List<String> daysOfWeek) {

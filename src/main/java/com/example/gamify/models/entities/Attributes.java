@@ -1,6 +1,7 @@
 package com.example.gamify.models.entities;
 
 import com.example.gamify.models.dtos.output.AtributesOutPutDTO;
+import com.example.gamify.utils.entities.atributes.AttributesLebels;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -85,5 +86,20 @@ public class Attributes {
                 this.logicalReasoning,
                 this.musicality
         );
+    }
+
+    public void updateAttribute(AttributesLebels attributesLebels, int experience) {
+        switch (attributesLebels) {
+            case strength -> this.strength += experience;
+            case spirituality -> this.spirituality += experience;
+            case intelligence -> this.intelligence += experience;
+            case charisma -> this.charisma += experience;
+            case spatial_perception -> this.spatialPerception += experience;
+            case self_awareness -> this.selfAwareness += experience;
+            case language -> this.language += experience;
+            case logical_reasoning -> this.logicalReasoning += experience;
+            case musicality -> this.musicality += experience;
+            default -> throw  new IllegalStateException("Unexpected value: " + attributesLebels);
+        }
     }
 }
