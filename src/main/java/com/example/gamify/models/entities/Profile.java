@@ -28,6 +28,10 @@ public class Profile {
     private List<Tasks> tasks;
 
     @Getter
+    @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Store store;
+
+    @Getter
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mission> missions;
 

@@ -7,7 +7,7 @@ import com.example.gamify.models.entities.Profile;
 import com.example.gamify.models.entities.Tasks;
 import com.example.gamify.repository.ProfileRepository;
 import com.example.gamify.repository.TasksRepository;
-import com.example.gamify.utils.exceptions.ProfileNotExists;
+import com.example.gamify.utils.exceptions.ProfileNotFoundException;
 import com.example.gamify.utils.exceptions.TaskAlreadyCompleted;
 import com.example.gamify.utils.exceptions.TaskNotFound;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class TasksService {
     public TasksOutPutDTO createTask(TasksInputDTO taskInputDTO) {
         Profile profile = profileRepository.findByUserId(taskInputDTO.profileUuid())
                 .orElseThrow(
-                        () -> new ProfileNotExists("Profile not found with id: " + taskInputDTO.profileUuid())
+                        () -> new ProfileNotFoundException("Profile not found with id: " + taskInputDTO.profileUuid())
                 );
         Tasks tasks = Tasks.fromInputDTO(taskInputDTO, profile);
         return tasksRepository.save(tasks).toOutputDTO();

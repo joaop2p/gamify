@@ -8,9 +8,8 @@ import com.example.gamify.models.entities.Tasks;
 import com.example.gamify.repository.MissionRespository;
 import com.example.gamify.repository.ProfileRepository;
 import com.example.gamify.repository.TasksRepository;
-import com.example.gamify.utils.exceptions.ProfileNotExists;
+import com.example.gamify.utils.exceptions.ProfileNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,7 +24,7 @@ public class MissionService {
 
     public MissionOutPutDTO createNewMission(MissionInputDTO missionInputDTO){
         Profile profile = profileRepository.findById(missionInputDTO.userId())
-                .orElseThrow(() -> new ProfileNotExists("Profile with id " + missionInputDTO.userId() + " does not exist"));
+                .orElseThrow(() -> new ProfileNotFoundException("Profile with id " + missionInputDTO.userId() + " does not exist"));
         Optional<Tasks> task = Optional.empty();
         if (missionInputDTO.taskId().isPresent()) {
             task = tasksRepository.findById(missionInputDTO.taskId().get());
