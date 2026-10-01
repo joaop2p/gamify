@@ -33,16 +33,18 @@ public class Item {
     private Store store;
 
     @Getter
-    private LocalDateTime created_at = LocalDateTime.now();
+    @Column(nullable = false, updatable = false, name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Setter
     @Getter
-    private LocalDateTime updated_at = LocalDateTime.now();
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     @Getter
     @Setter
-    @Column(nullable = true)
-    private LocalDateTime purchase_at;
+    @Column(nullable = true, name = "purchase_at")
+    private LocalDateTime purchaseAt;
 
     public  Item() {
     }
@@ -53,6 +55,6 @@ public class Item {
     }
 
     public ItemOutputDTO toOutputDTO() {
-        return new ItemOutputDTO(id, name, value, created_at, updated_at, purchase_at);
+        return new ItemOutputDTO(id, name, value, createdAt, updatedAt, purchaseAt);
     }
 }

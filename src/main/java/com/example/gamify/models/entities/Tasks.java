@@ -81,6 +81,11 @@ public class Tasks {
 
     @Getter
     @Setter
+    @Column(nullable = true)
+    private int recurrenceCount = 0;
+
+    @Getter
+    @Setter
     private LocalTime scheduledTime;
 
     @Getter

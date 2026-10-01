@@ -39,3 +39,7 @@ out/
 # Arquivos
 .env
 *.http
+
+### Logs da aplicação ###
+Logs/
+logs/

@@ -48,10 +48,11 @@ public class Store {
     }
 
     public StoreOutputDTO toOutputDTO(){
+        List<Item> safeItems = items == null ? List.of() : items;
         return new StoreOutputDTO(
                 id,
                 profile.getUserId(),
-                items.stream().map(Item::toOutputDTO).toList()
+                safeItems.stream().map(Item::toOutputDTO).toList()
         );
     }
 }

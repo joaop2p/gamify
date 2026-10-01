@@ -1,7 +1,9 @@
 package com.example.gamify.utils.exceptions;
 
-public class ItemNotOwnedException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class ItemNotOwnedException extends GamifyException {
     public ItemNotOwnedException(String message) {
-        super(message);
+        super(HttpStatus.FORBIDDEN, "ITEM_NOT_OWNED", message);
     }
 }

@@ -1,7 +1,9 @@
 package com.example.gamify.utils.exceptions;
 
-public class InsufficientGoldException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class InsufficientGoldException extends GamifyException {
     public InsufficientGoldException(String message) {
-        super(message);
+        super(HttpStatus.CONFLICT, "INSUFFICIENT_GOLD", message);
     }
 }

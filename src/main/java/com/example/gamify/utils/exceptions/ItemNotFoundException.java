@@ -1,7 +1,9 @@
 package com.example.gamify.utils.exceptions;
 
-public class ItemNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class ItemNotFoundException extends GamifyException {
     public ItemNotFoundException(String message) {
-        super(message);
+        super(HttpStatus.NOT_FOUND, "ITEM_NOT_FOUND", message);
     }
 }

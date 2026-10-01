@@ -28,7 +28,7 @@ public class Mission {
     @Getter
     @OneToOne
     @JoinColumn(nullable = true, updatable = false)
-    private Tasks tasks;
+    private Tasks task;
 
     @Getter
     @Setter
@@ -55,6 +55,14 @@ public class Mission {
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
     private boolean finished = false;
 
+    @Getter
+    @Setter
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
+    @Getter
+    @Setter
+    private LocalDateTime finishedAt;
+
     public Mission(){}
 
     public Mission(Profile profile, String title, int experience, int reward) {
@@ -71,18 +79,26 @@ public class Mission {
                 this.experience,
                 this.reward,
                 this.finished,
-                Optional.ofNullable(this.tasks).map(Tasks::toOutputDTO).orElse(null),
+                Optional.ofNullable(this.task).map(Tasks::toOutputDTO).orElse(null),
                 profile.toResumeDTO()
         );
     }
 
-    static public Mission fromMissionInputDTO(MissionInputDTO missionInputDTO, Profile profile, Optional<Tasks> tasks) {
+    public void updateFromMissionInputDTO(MissionInputDTO missionInputDTO, Optional<Tasks> task) {
+        this.title = missionInputDTO.title();
+        this.experience = missionInputDTO.experience();
+        this.reward = missionInputDTO.reward();
+        this.task = task.orElse(null);
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    static public Mission fromMissionInputDTO(MissionInputDTO missionInputDTO, Profile profile, Optional<Tasks> task) {
         Mission mission = new Mission();
         mission.profile = profile;
         mission.title = missionInputDTO.title();
         mission.experience = missionInputDTO.experience();
         mission.reward = missionInputDTO.reward();
-        mission.tasks = tasks.orElse(null);
+        mission.task = task.orElse(null);
         return mission;
     }
 }

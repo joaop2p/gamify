@@ -1,7 +1,9 @@
 package com.example.gamify.utils.exceptions;
 
-public class StoreNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class StoreNotFoundException extends GamifyException {
     public StoreNotFoundException(String message) {
-        super(message);
+        super(HttpStatus.NOT_FOUND, "STORE_NOT_FOUND", message);
     }
 }

@@ -1,7 +1,9 @@
 package com.example.gamify.utils.exceptions;
 
-public class ItemPurchasedException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class ItemPurchasedException extends GamifyException {
     public ItemPurchasedException(String message) {
-        super(message);
+        super(HttpStatus.CONFLICT, "ITEM_ALREADY_PURCHASED", message);
     }
 }

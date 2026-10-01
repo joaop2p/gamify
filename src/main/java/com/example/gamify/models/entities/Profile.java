@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,15 +26,16 @@ public class Profile {
 
     @Getter
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Tasks> tasks;
+    private List<Tasks> tasks = new ArrayList<>();
 
     @Getter
+    @Setter
     @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private Store store;
 
     @Getter
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Mission> missions;
+    private List<Mission> missions = new ArrayList<>();
 
     @Getter
     @Setter
@@ -60,6 +62,7 @@ public class Profile {
     private Attributes attributes;
 
     public Profile() {
+        setAttributes(null);
     }
 
     public Profile(UUID userId, String email, String name, String avatarUrl, int level, int experience, int gold, Attributes attributes) {
