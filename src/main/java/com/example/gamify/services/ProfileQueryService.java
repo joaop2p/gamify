@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -61,13 +62,17 @@ public class ProfileQueryService {
 
     public StoreOutputDTO getStoreByProfileId(UUID profileId) throws ProfileNotFoundException, StoreNotFoundException {
         log.info("Consultando loja do perfil {}", profileId);
-        findProfile(profileId);
-        Store store = storeRepository.findByProfile_UserId(profileId)
-                .orElseThrow(() -> {
-                    log.warn("Loja não encontrada para o perfil {}", profileId);
-                    return new StoreNotFoundException("Loja não encontrada para o perfil: " + profileId);
-                });
-        return store.toOutputDTO();
+        Profile profile = findProfile(profileId);
+        Optional<Store> store = storeRepository.findByProfile_UserId(profileId);
+        if (store.isEmpty()) {
+            log.warn("Loja não encontrada para o perfil {}. Criando uma nova loja.", profileId);
+            Store newStore = new Store(profile, List.of());
+            storeRepository.save(newStore);
+            profile.setStore(newStore);
+            profileRepository.save(profile);
+            return newStore.toOutputDTO();
+        }
+        return store.get().toOutputDTO();
     }
 
     private Profile findProfile(UUID userId) {
