@@ -54,7 +54,7 @@ public class TasksService {
         Profile profile = tasks.getProfile();
         tasks.setFinished(true);
         profile.setGold(profile.getGold() + tasks.getReward());
-        profile.getAttributes().updateAttribute(tasks.getAttribute(), tasks.getReward());
+        profile.getAttributes().updateAttribute(tasks.getAttribute(), tasks.getExperience());
 
         tasksRepository.save(tasks);
         profileRepository.save(profile);

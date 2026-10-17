@@ -16,9 +16,6 @@ import java.util.UUID;
 public class ProfileService {
     private final ProfileRepository profileRepository;
 
-    public boolean validateProfile(UUID profileId) {
-        return profileRepository.findByUserId(profileId).isPresent();
-    }
 
     @Transactional
     public void updateProfileInfo(@NonNull ProfileInputDTO profileDTO, UUID userId) throws ProfileNotFoundException {

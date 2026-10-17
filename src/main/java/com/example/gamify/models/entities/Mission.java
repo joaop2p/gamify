@@ -27,13 +27,17 @@ public class Mission {
 
     @Getter
     @OneToOne
-    @JoinColumn(nullable = true, updatable = false)
+    @JoinColumn(updatable = false)
     private Tasks tasks;
 
     @Getter
     @Setter
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Getter
+    @Setter
+    private LocalDateTime finishedAt;
 
     @Getter
     @Setter
@@ -57,13 +61,6 @@ public class Mission {
 
     public Mission(){}
 
-    public Mission(Profile profile, String title, int experience, int reward) {
-        this.profile = profile;
-        this.title = title;
-        this.experience = experience;
-        this.reward = reward;
-    }
-
     public MissionOutPutDTO toMissionOutPutDTO() {
         return new MissionOutPutDTO(
                 this.id,
@@ -71,6 +68,8 @@ public class Mission {
                 this.experience,
                 this.reward,
                 this.finished,
+                this.createdAt,
+                this.finishedAt,
                 Optional.ofNullable(this.tasks).map(Tasks::toOutputDTO).orElse(null),
                 profile.toResumeDTO()
         );

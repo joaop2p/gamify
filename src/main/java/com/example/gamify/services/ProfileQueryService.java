@@ -2,7 +2,9 @@ package com.example.gamify.services;
 
 import com.example.gamify.models.dtos.absolute.ProfileDTO;
 import com.example.gamify.models.dtos.absolute.TasksDTO;
+import com.example.gamify.models.dtos.output.MissionOutPutDTO;
 import com.example.gamify.models.dtos.output.StoreOutputDTO;
+import com.example.gamify.models.entities.Mission;
 import com.example.gamify.models.entities.Profile;
 import com.example.gamify.models.entities.Store;
 import com.example.gamify.models.entities.Tasks;
@@ -48,8 +50,18 @@ public class ProfileQueryService {
                 .toList();
     }
 
+    public List<MissionOutPutDTO> getProfileMissions(UUID userId) throws ProfileNotFoundException {
+        Profile profile = profileRepository.findByUserId(userId)
+                .orElseThrow(
+                        () -> new ProfileNotFoundException("Não há perfil para o usuário com UUID: " + userId)
+                );
+        return profile.getMissions().stream()
+                .map(Mission::toMissionOutPutDTO)
+                .toList();
+    }
+
     public StoreOutputDTO getStoreByProfileId(UUID profileId) throws ProfileNotFoundException, StoreNotFoundException {
-        Profile profile = profileRepository.findByUserId(profileId)
+        profileRepository.findByUserId(profileId)
                 .orElseThrow(
                         () -> new ProfileNotFoundException("Não há perfil para o usuário com UUID: " + profileId)
                 );

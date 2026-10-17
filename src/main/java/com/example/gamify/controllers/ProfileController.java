@@ -5,6 +5,7 @@ import com.example.gamify.models.dtos.absolute.ProfileDTO;
 import com.example.gamify.models.dtos.input.ItemInputDTO;
 import com.example.gamify.models.dtos.input.ProfileInputDTO;
 import com.example.gamify.models.dtos.output.ItemOutputDTO;
+import com.example.gamify.models.dtos.output.MissionOutPutDTO;
 import com.example.gamify.models.dtos.output.StoreOutputDTO;
 import com.example.gamify.services.ProfileQueryService;
 import com.example.gamify.services.ProfileService;
@@ -74,6 +75,22 @@ public class ProfileController {
             return ResponseEntity.ok(profileQueryService.getProfileTasks(uuid));
         } catch (ProfileNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
+        }
+    }
+
+    @GetMapping("/{uuid}/my_missions")
+    @Operation(summary = "Obter missões do perfil por UUID", description = "Retorna as missões associadas ao perfil do usuário.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Missões obtidas com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Perfil não encontrado")
+    })
+    public ResponseEntity<List<MissionOutPutDTO>> getMyMissions(@PathVariable UUID uuid) {
+        try {
+            return ResponseEntity.ok(profileQueryService.getProfileMissions(uuid));
+        } catch (ProfileNotFoundException ex) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         }
     }
 

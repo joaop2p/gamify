@@ -3,6 +3,7 @@ package com.example.gamify.models.dtos.output;
 import com.example.gamify.models.dtos.resume.ProfileResumeDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Schema(description = "DTO de saída para missões")
@@ -17,6 +18,10 @@ public record MissionOutPutDTO(
         int reward,
         @Schema(name = "finished", description = "Indica se a missão foi concluída")
         boolean finished,
+        @Schema(name = "createdAt", description = "Data de criação da missão")
+        LocalDateTime createdAt,
+        @Schema(name = "finishedAt", description = "Data de conclusão da missão")
+        LocalDateTime finishedAt,
         @Schema(name = "tasks", description = "Tarefas associadas à missão")
         TasksOutPutDTO tasks,
         @Schema(name = "profile", description = "Perfil associado à missão")
